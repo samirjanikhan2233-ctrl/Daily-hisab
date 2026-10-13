@@ -4,6 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Daily Hisab</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0F3D3E">
+<link rel="apple-touch-icon" href="icon-192.png">
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&display=swap" rel="stylesheet">
 <style>
 :root{--bg:#FBF7EE;--card:#fff;--ink:#1d2a2a;--mute:#6b7775;--teal:#0F3D3E;--teal2:#1c6b69;--gold:#F2A93B;--line:#e6dfcf;--red:#c2412d;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
@@ -170,6 +173,7 @@ var sc=document.querySelector(".scene");
 sc.addEventListener("pointermove",function(e){if(fl.classList.contains("back"))return;var r=sc.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;fl.style.animation="none";fl.style.transform="rotateY("+x*18+"deg) rotateX("+(-y*14)+"deg)"});
 sc.addEventListener("pointerleave",function(){if(!fl.classList.contains("back"))fl.style.transform=""});
 fl.addEventListener("click",function(){fl.style.transform=""});
+if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js').catch(function(){})}
 load();$("month").value=today().slice(0,7);reset();render();
 })();
 </script>
