@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Daily Hisab</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#faf6ef;--card:#fff;--in:#f9f4ea;--ink:#173a3a;--mut:#6b7a78;--ln:#e6dfd0;--pri:#175e5e;--pri2:#0f3d3d;--acc:#f2a93b;--accd:#bd7c1d;--bad:#c0392b;--ok:#2e8b57}
+[data-t=dark]{--bg:#0f1b1b;--card:#172626;--in:#1d3030;--ink:#f1ebe0;--mut:#9fb2ae;--ln:#2b4242;--pri:#2a8a86;--pri2:#123a3a}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'Baloo 2',system-ui,sans-serif;font-size:16px}
+#app{max-width:520px;margin:0 auto;padding:calc(14px + env(safe-area-inset-top,0px)) 16px 110px}
+.head{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:14px}
+.head h1{margin:0;font-size:30px;font-weight:800;line-height:1.1}.head p{margin:2px 0 0;color:var(--mut);font-size:14px}
+.tools{display:flex;gap:8px}
+select,input{width:100%;font:inherit;color:var(--ink);background:var(--in);border:2px solid var(--ln);border-radius:16px;padding:10px 14px;margin:0 0 12px}
+.tools select{width:auto;margin:0;background:var(--card);padding:8px 10px}
+.sq{background:var(--card);border:2px solid var(--ln);border-radius:14px;width:44px;height:44px;font-size:20px;color:var(--ink);cursor:pointer}
+.tools .sq{width:auto;padding:0 10px;height:40px;font-size:18px}
+.card{background:var(--card);border:2px solid var(--ln);border-radius:26px;padding:18px;margin-bottom:14px}
+h2{margin:0 0 10px;font-size:22px}
+label{display:block;color:var(--mut);font-size:14px;margin-bottom:4px}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.btn{width:100%;font:inherit;font-weight:800;font-size:18px;color:#3a2200;background:var(--acc);border:0;border-radius:18px;padding:12px;box-shadow:0 5px 0 var(--accd);cursor:pointer;margin-top:4px}
+.btn:active{transform:translateY(3px);box-shadow:0 2px 0 var(--accd)}
+.ghost{width:100%;font:inherit;font-weight:600;color:var(--pri);background:transparent;border:2px solid var(--ln);border-radius:16px;padding:10px;margin-top:10px;cursor:pointer}
+.ghost.red{color:var(--bad)}
+.link{display:block;margin:12px auto 0;background:none;border:0;color:var(--pri);font:inherit;font-weight:600;cursor:pointer}
+.hero{background:linear-gradient(135deg,var(--pri2),var(--pri));color:#fff;border-radius:30px;padding:20px;margin-bottom:14px;position:relative;cursor:pointer}
+.hero small{opacity:.85;display:block}.hero .big{font-size:44px;font-weight:800;line-height:1.1}
+.coin{position:absolute;right:18px;top:16px;background:var(--acc);color:#4a2b00;font-weight:800;border-radius:50%;width:46px;height:58px;display:grid;place-items:center;font-size:13px}
+.prog{height:10px;background:rgba(255,255,255,.25);border-radius:9px;overflow:hidden;margin:12px 0 4px}
+.prog i{display:block;height:100%;border-radius:9px;background:#7fe0a5}
+.prog i.warn{background:var(--acc)}.prog i.bad{background:#ff7a6b}
+.yr{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;font-size:26px;font-weight:800}
+.bar{display:flex;justify-content:space-between;background:linear-gradient(135deg,var(--pri2),var(--pri));color:#fff;border-radius:18px;padding:12px 18px;margin-bottom:14px;font-weight:800}
+.mrow{display:flex;justify-content:space-between;padding:12px 4px;border-bottom:1px dashed var(--ln);cursor:pointer}
+.mrow:last-child{border:0}.mrow.cur{color:var(--pri);font-weight:800}
+.day{color:var(--mut);font-size:14px;margin:14px 4px 6px}
+.it{display:flex;align-items:center;gap:8px;background:var(--card);border:2px solid var(--ln);border-radius:18px;padding:10px 12px;margin-bottom:8px}
+.it>div:first-child{flex:1;min-width:0}.it b{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.it small{color:var(--mut)}.amt{font-weight:800}
+.it button{background:none;border:0;font-size:18px;color:var(--mut);cursor:pointer;padding:4px}
+.note,.err,.empty{color:var(--mut);font-size:13px;text-align:center}.err{color:var(--bad);min-height:18px;margin:0}
+.chk{display:flex;gap:8px;align-items:center}
+nav{position:fixed;left:0;right:0;bottom:0;display:flex;background:var(--card);border-top:2px solid var(--ln);padding-bottom:env(safe-area-inset-bottom,0px)}
+nav button{flex:1;background:none;border:0;border-top:4px solid transparent;font:inherit;font-weight:800;color:var(--mut);padding:14px 0;cursor:pointer}
+nav button.on{color:var(--pri);border-top-color:var(--acc)}
+#toast{position:fixed;left:50%;bottom:90px;transform:translateX(-50%);background:var(--pri2);color:#fff;padding:10px 20px;border-radius:20px;opacity:0;transition:opacity .25s;pointer-events:none}
+#toast.on{opacity:1}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<div id="toast"></div>
+<script>
+const $=s=>document.querySelector(s),LS=localStorage,C=['food','home','travel','health','other'];
+const L={
+en:{sub:"Your accounts, instead of a notebook",today:"Today's total",tap:"Tap to see the month",add:"Add a new item",edit:"Edit item",name:"Item name",ph:"e.g. rice",cat:"Category",qty:"Quantity",price:"Price (each)",date:"Date",save:"Save",upd:"Update",ok:"Saved",addt:"Add item",rec:"Records",set:"Settings",yt:"Year total",total:"Total",nothing:"No items here yet",search:"Search items",del:"Delete this item?",login:"Log in",signup:"Sign up",logout:"Log out",user:"Username",pass:"Password (min 4 characters)",fn:"Your name",have:"Already have an account? Log in",no:"New here? Sign up",bad:"Wrong username or password",taken:"This username is taken",fill:"Please fill in all fields",budget:"Monthly budget",left:"left this month",over:"over budget by",nob:"Set a monthly budget in Settings",cur:"Currency symbol",data:"Your data",profile:"Profile",hello:"Hello",note:"Your data is saved on this device only. Use Backup to keep a copy.",csv:"Export CSV",bk:"Backup (JSON)",rs:"Restore backup",wipe:"Delete all my records",wipeq:"Delete all your records? This cannot be undone.",back:"Cancel",done:"Done",bad2:"Invalid backup file",c_food:"Food",c_home:"Home",c_travel:"Travel",c_health:"Health",c_other:"Other",dev:"Developed by MuhammadSamirKhankabir"},
+ur:{sub:"Apna hisab, copy ki jagah",today:"Aaj ka total",tap:"Mahine ka hisab dekhne ke liye tap karein",add:"Naya item likhein",edit:"Item theek karein",name:"Item ka naam",ph:"misal: chawal",cat:"Qisam",qty:"Miqdar",price:"Qeemat (ek ki)",date:"Tareekh",save:"Save karein",upd:"Update karein",ok:"Save ho gaya",addt:"Item likhein",rec:"Records",set:"Settings",yt:"Saal ka total",total:"Total",nothing:"Abhi koi item nahi",search:"Item talash karein",del:"Yeh item delete karein?",login:"Login",signup:"Sign up",logout:"Logout",user:"Username",pass:"Password (kam az kam 4 harf)",fn:"Aap ka naam",have:"Account pehle se hai? Login karein",no:"Naye hain? Sign up karein",bad:"Username ya password ghalat hai",taken:"Yeh username pehle se maujood hai",fill:"Sab khane bharein",budget:"Mahana budget",left:"is mahine baqi",over:"budget se ziyada",nob:"Settings mein mahana budget lagayein",cur:"Currency ki alamat",data:"Aap ka data",profile:"Profile",hello:"Assalam o Alaikum",note:"Aap ka data sirf is device par save hota hai. Copy rakhne ke liye Backup lein.",csv:"CSV export karein",bk:"Backup (JSON)",rs:"Backup wapas lagayein",wipe:"Mera sara record delete karein",wipeq:"Sara record delete karein? Yeh wapas nahi hoga.",back:"Cancel",done:"Ho gaya",bad2:"Backup file theek nahi",c_food:"Khana",c_home:"Ghar",c_travel:"Safar",c_health:"Sehat",c_other:"Aur",dev:"Developed by MuhammadSamirKhankabir"}};
+let U=null,D=null,tab='add',view=null,yr=new Date().getFullYear(),q='',editId=null,mode='login';
+const lang=()=>LS.dh_lang||'en',t=k=>(L[lang()]||L.en)[k]||L.en[k]||k;
+const users=()=>JSON.parse(LS.dh_users||'{}');
+const load=()=>{D=JSON.parse(LS['dh_d_'+U]||'null')||{items:[],s:{cur:'Rs',budget:0}}};
+const save=()=>LS['dh_d_'+U]=JSON.stringify(D);
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const fmt=n=>(+n).toLocaleString('en',{maximumFractionDigits:2}),cur=n=>D.s.cur+' '+fmt(n);
+const p2=n=>String(n).padStart(2,'0');
+const today=()=>{const d=new Date();return d.getFullYear()+'-'+p2(d.getMonth()+1)+'-'+p2(d.getDate())};
+const sum=p=>D.items.filter(i=>i.d.startsWith(p)).reduce((a,i)=>a+i.q*i.p,0);
+const hash=async s=>window.crypto&&crypto.subtle?[...new Uint8Array(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(s)))].map(b=>p2(b.toString(16))).join(''):btoa(unescape(encodeURIComponent(s)));
+function toast(m){const e=$('#toast');e.textContent=m;e.className='on';setTimeout(()=>e.className='',1800)}
+
+function head(){return `<div class=head><div><h1>Daily Hisab</h1><p>${t('sub')}</p></div><div class=tools><select onchange="LS.dh_lang=this.value;render()"><option value=en ${lang()=='en'?'selected':''}>English</option><option value=ur ${lang()=='ur'?'selected':''}>Roman Urdu</option></select><button class=sq onclick="LS.dh_dark=LS.dh_dark=='1'?'0':'1';render()">${LS.dh_dark=='1'?'☀️':'🌙'}</button></div></div>`}
+
+/* ---------- auth ---------- */
+function authHTML(){const s=mode=='signup';return head()+`<div class=card><h2>${t(s?'signup':'login')}</h2>${s?`<label>${t('fn')}</label><input id=n autocomplete=name>`:''}<label>${t('user')}</label><input id=u autocapitalize=none autocomplete=username><label>${t('pass')}</label><input id=p type=password autocomplete="${s?'new-password':'current-password'}" onkeydown="event.key=='Enter'&&auth()"><p class=err id=er></p><button class=btn onclick=auth()>${t(s?'signup':'login')}</button><button class=link onclick="mode='${s?'login':'signup'}';render()">${t(s?'have':'no')}</button></div><p class=note>${t('note')}</p>`}
+async function auth(){const u=$('#u').value.trim().toLowerCase(),p=$('#p').value,us=users(),er=m=>$('#er').textContent=m;
+ if(mode=='signup'){const n=$('#n').value.trim();if(!u||!n||p.length<4)return er(t('fill'));if(us[u])return er(t('taken'));const s=Math.random().toString(36).slice(2);us[u]={n,s,h:await hash(s+p)};LS.dh_users=JSON.stringify(us)}
+ else{const a=us[u];if(!a||a.h!==await hash(a.s+p))return er(t('bad'))}
+ U=u;LS.dh_session=u;load();tab='add';render()}
+function logout(){LS.removeItem('dh_session');U=D=null;view=null;render()}
+
+/* ---------- add ---------- */
+function topHTML(){const b=+D.s.budget,m=sum(today().slice(0,7)),pc=b?Math.min(m/b*100,100):0,cl=b&&m>b?'bad':pc>=80?'warn':'';
+ const msg=!b?t('nob'):m>b?`${t('over')} ${cur(m-b)}`:`${cur(b-m)} ${t('left')}`;
+ return `<div class=hero onclick="tab='rec';const d=new Date();view={y:d.getFullYear(),m:d.getMonth()};yr=view.y;q='';render()"><small>${t('today')}</small><div class=big>${fmt(sum(today()))}</div><div class=coin>${esc(D.s.cur)}</div><div class=prog><i class="${cl}" style="width:${pc}%"></i></div><small>${msg}</small><small style="text-align:right;margin-top:6px">${t('tap')}</small></div>`}
+function addHTML(){const e=editId?D.items.find(i=>i.id==editId):null;
+ return topHTML()+`<div class=card><h2>${t(e?'edit':'add')}</h2><label>${t('name')}</label><input id=in list=dl placeholder="${t('ph')}" value="${esc(e?e.n:'')}"><datalist id=dl>${[...new Set(D.items.map(i=>i.n))].slice(-60).map(n=>`<option value="${esc(n)}">`).join('')}</datalist><label>${t('cat')}</label><select id=ic>${C.map(c=>`<option value=${c} ${e&&e.c==c?'selected':''}>${t('c_'+c)}</option>`).join('')}</select><div class=row><div><label>${t('qty')}</label><input id=iq type=number inputmode=decimal min=0 step=any value="${e?e.q:1}"></div><div><label>${t('price')}</label><input id=ip type=number inputmode=decimal min=0 step=any placeholder=0 value="${e?e.p:''}"></div></div><label>${t('date')}</label><input id=id type=date value="${e?e.d:today()}"><button class=btn onclick=saveItem()>${t(e?'upd':'save')}</button>${e?`<button class=ghost onclick="editId=null;render()">${t('back')}</button>`:''}</div><p class=note>${t('dev')}</p>`}
+function saveItem(){const n=$('#in').value.trim(),q=+$('#iq').value,p=+$('#ip').value||0,d=$('#id').value,c=$('#ic').value;
+ if(!n||!d||!(q>0))return toast(t('fill'));
+ if(editId){Object.assign(D.items.find(i=>i.id==editId),{n,q,p,d,c});editId=null;tab='rec';view={y:+d.slice(0,4),m:+d.slice(5,7)-1};yr=view.y}else D.items.push({id:Date.now(),n,q,p,d,c});
+ save();toast(t('ok'));render()}
+
+/* ---------- records ---------- */
+function recHTML(){if(view)return monthHTML();const now=new Date();
+ return `<div class=yr><button class=sq onclick="yr--;render()">‹</button><span>${yr}</span><button class=sq onclick="yr++;render()">›</button></div><div class=bar><span>${t('yt')}</span><span>${cur(sum(yr+'-'))}</span></div><div class=card>${[...Array(12)].map((_,i)=>`<div class="mrow ${yr==now.getFullYear()&&i==now.getMonth()?'cur':''}" onclick="view={y:yr,m:${i}};q='';render()"><span>${new Date(2000,i,1).toLocaleString('en',{month:'long'})}</span><span>${fmt(sum(yr+'-'+p2(i+1)))} ›</span></div>`).join('')}</div>`}
+const mp=()=>view.y+'-'+p2(view.m+1);
+function monthHTML(){const b=+D.s.budget,m=sum(mp());
+ return `<div class=yr><button class=sq onclick="view=null;render()">‹</button><span style="font-size:22px">${new Date(view.y,view.m,1).toLocaleString('en',{month:'long',year:'numeric'})}</span><span style="width:44px"></span></div><div class=bar><span>${t('total')}</span><span>${cur(m)}${b?' / '+fmt(b):''}</span></div><input placeholder="${t('search')}" value="${esc(q)}" oninput="q=this.value;list()"><div id=list></div>`}
+function list(){const a=D.items.filter(i=>i.d.startsWith(mp())&&i.n.toLowerCase().includes(q.toLowerCase())).sort((x,y)=>y.d.localeCompare(x.d)||y.id-x.id);
+ if(!a.length)return $('#list').innerHTML=`<p class=empty>${t('nothing')}</p>`;
+ let h='',last='';for(const i of a){if(i.d!=last){last=i.d;h+=`<div class=day>${i.d} · ${fmt(sum(i.d))}</div>`}
+ h+=`<div class=it><div><b>${esc(i.n)}</b><small>${i.q} × ${fmt(i.p)} · ${t('c_'+i.c)}</small></div><div class=amt>${fmt(i.q*i.p)}</div><button onclick="editId=${i.id};tab='add';render()">✎</button><button onclick="rm(${i.id})">✕</button></div>`}
+ $('#list').innerHTML=h}
+function rm(id){if(!confirm(t('del')))return;D.items=D.items.filter(i=>i.id!=id);save();render()}
+
+/* ---------- settings ---------- */
+function setHTML(){const n=users()[U].n;
+ return `<div class=card><h2>${t('profile')}</h2><p style="margin:0 0 10px">${t('hello')}, <b>${esc(n)}</b> (@${esc(U)})</p><label>${t('fn')}</label><input value="${esc(n)}" onchange="rename(this.value)"><label>${t('budget')}</label><input type=number inputmode=decimal min=0 placeholder=0 value="${D.s.budget||''}" onchange="D.s.budget=+this.value||0;save();toast(t('done'))"><label>${t('cur')}</label><input maxlength=4 value="${esc(D.s.cur)}" onchange="D.s.cur=this.value.trim()||'Rs';save();toast(t('done'))"></div><div class=card><h2>${t('data')}</h2><p class=note>${t('note')}</p><button class=ghost onclick=csv()>${t('csv')}</button><button class=ghost onclick=backup()>${t('bk')}</button><button class=ghost onclick="$('#rf').click()">${t('rs')}</button><input id=rf type=file accept=".json" hidden onchange=restore(this)><button class="ghost red" onclick=wipe()>${t('wipe')}</button></div><button class=btn onclick=logout()>${t('logout')}</button>`}
+function rename(v){const us=users();us[U].n=v.trim()||us[U].n;LS.dh_users=JSON.stringify(us);toast(t('done'))}
+function dl(name,text,type){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([text],{type}));a.download=name;a.click()}
+function csv(){const r=['date,item,category,quantity,price,total',...D.items.slice().sort((a,b)=>a.d.localeCompare(b.d)).map(i=>[i.d,'"'+i.n.replace(/"/g,'""')+'"',i.c,i.q,i.p,i.q*i.p].join(','))];dl('daily-hisab.csv','\ufeff'+r.join('\n'),'text/csv')}
+function backup(){dl('daily-hisab-backup.json',JSON.stringify(D),'application/json')}
+function restore(el){const f=el.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{const x=JSON.parse(r.result);if(!Array.isArray(x.items))throw 0;const ids=new Set(D.items.map(i=>i.id));x.items.forEach(i=>{if(i&&i.n&&i.d&&!ids.has(i.id))D.items.push(i)});if(x.s)D.s=Object.assign(D.s,x.s);save();toast(t('done'));render()}catch(e){toast(t('bad2'))}};r.readAsText(f)}
+function wipe(){if(confirm(t('wipeq'))){D.items=[];save();render()}}
+
+/* ---------- shell ---------- */
+function render(){document.documentElement.dataset.t=LS.dh_dark=='1'?'dark':'light';document.documentElement.lang=lang()=='ur'?'ur-Latn':'en';
+ if(!U){$('#app').innerHTML=authHTML();return}
+ const body=tab=='add'?addHTML():tab=='rec'?recHTML():setHTML();
+ $('#app').innerHTML=head()+body+`<nav>${[['add','addt'],['rec','rec'],['set','set']].map(([k,l])=>`<button class="${tab==k?'on':''}" onclick="tab='${k}';view=null;editId=null;render()">${t(l)}</button>`).join('')}</nav>`;
+ if(tab=='rec'&&view)list()}
+U=LS.dh_session;if(U&&users()[U])load();else U=null;render();
+</script>
+</body>
+</html>
