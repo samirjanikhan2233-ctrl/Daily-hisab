@@ -1,0 +1,199 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Daily Hisab</title>
+<style>
+:root{--bg:#F3F5F7;--card:#fff;--ink:#14213D;--mut:#6B7686;--line:#E3E7EC;--acc:#0F9D7A;--accs:#E3F5EF;--exp:#D64550;--warn:#E9A23B}
+[data-theme=dark]{--bg:#0E1420;--card:#171F2E;--ink:#EAF0F7;--mut:#93A0B3;--line:#263148;--acc:#2BC49B;--accs:#12312B;--exp:#F0707A;--warn:#F0B35A}
+*{box-sizing:border-box;margin:0}body{font:15px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--ink)}
+button,input,select{font:inherit;color:inherit}button{cursor:pointer}
+:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+.hide{display:none!important}
+input,select{width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:8px;background:var(--card)}
+label{display:block;font-size:13px;color:var(--mut);margin:12px 0 4px}
+.btn{background:var(--acc);color:#fff;border:0;border-radius:8px;padding:10px 16px;font-weight:600}
+.btn.ghost{background:none;color:var(--ink);border:1px solid var(--line)}.btn.red{background:var(--exp)}
+#auth{min-height:100vh;display:grid;place-items:center;padding:20px}
+.box{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:28px;width:100%;max-width:380px}
+.logo{font-size:22px;font-weight:800;letter-spacing:-.5px}.logo b{color:var(--acc)}
+.tabs{display:flex;gap:4px;background:var(--bg);padding:4px;border-radius:10px;margin:18px 0 4px}
+.tabs button{flex:1;border:0;background:none;padding:8px;border-radius:7px;color:var(--mut);font-weight:600}
+.tabs button.on{background:var(--card);color:var(--ink)}
+.err{color:var(--exp);font-size:13px;margin-top:10px;min-height:18px}
+.app{display:grid;grid-template-columns:220px 1fr;min-height:100vh}
+nav{background:var(--card);border-right:1px solid var(--line);padding:20px 12px;position:sticky;top:0;height:100vh;display:flex;flex-direction:column;gap:4px}
+nav .logo{padding:0 10px 18px}
+nav button{display:flex;gap:10px;align-items:center;background:none;border:0;padding:10px;border-radius:8px;color:var(--mut);font-weight:600;text-align:left}
+nav button.on{background:var(--accs);color:var(--acc)}
+nav .sp{flex:1}
+main{padding:28px;max-width:1000px;width:100%}
+h1{font-size:22px;letter-spacing:-.3px}h2{font-size:16px;margin-bottom:12px}
+.top{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:20px;flex-wrap:wrap}
+.sub{color:var(--mut);font-size:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px}
+.hero{background:var(--ink);color:#fff;border:0;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;align-items:flex-end;margin-bottom:16px}
+[data-theme=dark] .hero{background:#1B2A44}
+.hero .big{font-size:40px;font-weight:800;letter-spacing:-1px;line-height:1.1}.hero .sub{color:#B8C3D4}
+.grid{display:grid;gap:16px;margin-bottom:16px}.g3{grid-template-columns:repeat(3,1fr)}.g2{grid-template-columns:1.2fr 1fr}
+.kpi .v{font-size:22px;font-weight:700;margin-top:2px}.pos{color:var(--acc)}.neg{color:var(--exp)}
+.bar{height:8px;background:var(--bg);border-radius:6px;overflow:hidden;margin-top:8px}.bar i{display:block;height:100%;background:var(--acc);border-radius:6px}
+.bar.w i{background:var(--warn)}.bar.o i{background:var(--exp)}
+.row{display:flex;align-items:center;gap:12px;padding:11px 0;border-bottom:1px solid var(--line)}.row:last-child{border:0}
+.row .m{flex:1;min-width:0}.row .m small{display:block;color:var(--mut)}.row .m span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;display:block}
+.dot{width:10px;height:10px;border-radius:50%;flex:none}
+.x{background:none;border:0;color:var(--mut);font-size:18px;padding:4px 8px}.x:hover{color:var(--exp)}
+.donut{display:flex;gap:18px;align-items:center;flex-wrap:wrap}.donut svg{width:140px;height:140px;flex:none}
+.leg{flex:1;min-width:130px;font-size:14px}.leg div{display:flex;gap:8px;align-items:center;padding:3px 0}.leg b{margin-left:auto}
+.week{display:flex;gap:8px;align-items:flex-end;height:130px}.week div{flex:1;text-align:center;font-size:12px;color:var(--mut);display:flex;flex-direction:column;justify-content:flex-end;height:100%}
+.week i{display:block;background:var(--acc);border-radius:5px 5px 0 0;min-height:3px;margin-bottom:6px}
+.filters{display:flex;gap:8px;margin-bottom:12px}.filters input{flex:1}.filters select{width:130px}
+.set{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:14px 0;border-bottom:1px solid var(--line)}.set:last-child{border:0}.set input,.set select{width:170px}
+.fab{position:fixed;right:24px;bottom:24px;width:56px;height:56px;border-radius:50%;font-size:28px;border:0;background:var(--acc);color:#fff;box-shadow:0 6px 20px rgba(0,0,0,.25)}
+dialog{border:0;border-radius:14px;padding:24px;width:min(400px,92vw);background:var(--card);color:var(--ink)}dialog::backdrop{background:rgba(10,15,25,.55)}
+.seg{display:flex;gap:6px}.seg label{flex:1;margin:0;text-align:center;border:1px solid var(--line);border-radius:8px;padding:9px;cursor:pointer;color:var(--ink)}
+.seg input{display:none}.seg input:checked+span{font-weight:700}.seg label:has(input:checked){background:var(--accs);border-color:var(--acc);color:var(--acc)}
+.toast{position:fixed;left:50%;bottom:90px;transform:translateX(-50%);background:var(--ink);color:#fff;padding:10px 18px;border-radius:8px;font-size:14px;z-index:9}
+.empty{text-align:center;color:var(--mut);padding:26px 0}
+@media(max-width:820px){.app{grid-template-columns:1fr}
+nav{position:fixed;bottom:0;left:0;right:0;top:auto;height:auto;flex-direction:row;padding:6px;z-index:5;border-top:1px solid var(--line);border-right:0;justify-content:space-around}
+nav .logo,nav .sp,nav .lo{display:none}nav button{flex-direction:column;gap:0;font-size:12px;padding:6px 10px}
+main{padding:18px 16px 110px}.g3,.g2{grid-template-columns:1fr}.fab{bottom:80px;right:16px}.hero .big{font-size:32px}.set{flex-wrap:wrap}}
+@media(prefers-reduced-motion:no-preference){.card{transition:border-color .15s}}
+</style></head><body>
+
+<div id="auth"><div class="box">
+<div class="logo">Daily <b>Hisab</b></div><p class="sub">Roz ka hisab, aasani se.</p>
+<div class="tabs"><button class="on" data-m="in">Login</button><button data-m="up">Sign up</button></div>
+<div id="nmw" class="hide"><label for="nm">Aap ka naam</label><input id="nm" autocomplete="name"></div>
+<label for="em">Email</label><input id="em" type="email" autocomplete="email">
+<label for="pw">Password</label><input id="pw" type="password" autocomplete="current-password">
+<p class="err" id="err"></p><button class="btn" id="go" style="width:100%;margin-top:6px">Login karein</button>
+</div></div>
+
+<div class="app hide" id="app">
+<nav><div class="logo">Daily <b>Hisab</b></div>
+<button data-v="dash">▦ Dashboard</button><button data-v="tx">☰ Hisab</button><button data-v="bud">◔ Budget</button><button data-v="set">⚙ Settings</button>
+<div class="sp"></div><button class="lo" id="lo">⎋ Logout</button></nav>
+<main id="main"></main></div>
+
+<button class="fab hide" id="fab" aria-label="Naya hisab">+</button>
+<dialog id="dlg"><form id="f" method="dialog">
+<h2>Naya hisab</h2>
+<div class="seg"><label><input type="radio" name="t" value="e" checked><span>Kharcha</span></label><label><input type="radio" name="t" value="i"><span>Aamdani</span></label></div>
+<label for="am">Raqam</label><input id="am" type="number" min="1" step="any" required inputmode="decimal">
+<label for="ct">Category</label><select id="ct"></select>
+<label for="dt">Tareekh</label><input id="dt" type="date" required>
+<label for="nt">Note (optional)</label><input id="nt" maxlength="60">
+<div style="display:flex;gap:8px;margin-top:18px"><button type="button" class="btn ghost" id="cx" style="flex:1">Cancel</button><button class="btn" style="flex:1">Save karein</button></div>
+</form></dialog>
+
+<script>
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const CE=['Khana','Transport','Bills','Shopping','Sehat','Taleem','Other'],CI=['Salary','Business','Other'];
+const COL=['#0F9D7A','#3B82F6','#E9A23B','#D64550','#8B5CF6','#14B8A6','#94A3B8'];
+let U=null,D=null,view='dash',flt={q:'',t:'all'},mode='in';
+const g=k=>{try{return JSON.parse(localStorage.getItem(k))}catch(e){return null}},s=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
+const save=()=>s('dh_d_'+U.email,D);
+const esc=v=>String(v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const hash=async v=>{if(!(window.crypto&&crypto.subtle))return btoa(unescape(encodeURIComponent(v)));return[...new Uint8Array(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(v)))].map(b=>b.toString(16).padStart(2,'0')).join('')};
+const iso=d=>{const o=new Date(d.getTime()-d.getTimezoneOffset()*6e4);return o.toISOString().slice(0,10)};
+const today=()=>iso(new Date()),mon=()=>today().slice(0,7);
+const m=n=>D.set.cur+' '+Math.round(n).toLocaleString('en-IN');
+const toast=t=>{const e=document.createElement('div');e.className='toast';e.textContent=t;document.body.append(e);setTimeout(()=>e.remove(),2200)};
+
+/* ---------- Auth ---------- */
+$$('.tabs button').forEach(b=>b.onclick=()=>{mode=b.dataset.m;$$('.tabs button').forEach(x=>x.classList.toggle('on',x===b));$('#nmw').classList.toggle('hide',mode==='in');$('#go').textContent=mode==='in'?'Login karein':'Account banayein';$('#err').textContent=''});
+$('#go').onclick=async()=>{
+  const em=$('#em').value.trim().toLowerCase(),pw=$('#pw').value,nm=$('#nm').value.trim(),us=g('dh_users')||{};
+  if(!/^\S+@\S+\.\S+$/.test(em))return $('#err').textContent='Sahi email likhein.';
+  if(pw.length<6)return $('#err').textContent='Password kam az kam 6 characters ka ho.';
+  const h=await hash(pw);
+  if(mode==='up'){if(!nm)return $('#err').textContent='Apna naam likhein.';if(us[em])return $('#err').textContent='Is email se account pehle se hai. Login karein.';us[em]={name:nm,h};s('dh_users',us)}
+  else if(!us[em]||us[em].h!==h)return $('#err').textContent='Email ya password ghalat hai.';
+  s('dh_sess',em);boot(em)};
+[$('#em'),$('#pw'),$('#nm')].forEach(i=>i.onkeydown=e=>e.key==='Enter'&&$('#go').click());
+function boot(em){const us=g('dh_users');U={email:em,name:us[em].name};
+  D=g('dh_d_'+em)||{tx:[],bud:{total:0,cat:{}},set:{cur:'Rs',dark:false}};
+  document.documentElement.dataset.theme=D.set.dark?'dark':'';
+  $('#auth').classList.add('hide');$('#app').classList.remove('hide');$('#fab').classList.remove('hide');render()}
+function logout(){localStorage.removeItem('dh_sess');location.reload()}
+$('#lo').onclick=logout;
+
+/* ---------- Data helpers ---------- */
+const monthTx=()=>D.tx.filter(t=>t.d.startsWith(mon()));
+const sum=(a,t)=>a.filter(x=>x.t===t).reduce((p,x)=>p+x.a,0);
+function byCat(a){const o={};a.filter(x=>x.t==='e').forEach(x=>o[x.c]=(o[x.c]||0)+x.a);return Object.entries(o).sort((a,b)=>b[1]-a[1])}
+const rowH=t=>`<div class="row"><span class="dot" style="background:${t.t==='i'?'var(--acc)':COL[CE.indexOf(t.c)]||COL[6]}"></span><div class="m"><span>${esc(t.n||t.c)}</span><small>${esc(t.c)} · ${t.d}</small></div><b class="${t.t==='i'?'pos':'neg'}">${t.t==='i'?'+':'−'}${m(t.a)}</b><button class="x" data-del="${t.id}" aria-label="Delete">×</button></div>`;
+
+/* ---------- Views ---------- */
+function render(){
+  $$('nav button[data-v]').forEach(b=>b.classList.toggle('on',b.dataset.v===view));
+  $('#main').innerHTML={dash,tx:txv,bud:budv,set:setv}[view]();bind()}
+$$('nav button[data-v]').forEach(b=>b.onclick=()=>{view=b.dataset.v;render();scrollTo(0,0)});
+
+function dash(){
+  const mt=monthTx(),inc=sum(mt,'i'),exp=sum(mt,'e'),bal=sum(D.tx,'i')-sum(D.tx,'e'),B=D.bud.total;
+  const now=new Date(),dim=new Date(now.getFullYear(),now.getMonth()+1,0).getDate(),left=dim-now.getDate()+1;
+  const todayExp=sum(D.tx.filter(t=>t.d===today()),'e');
+  let hero;
+  if(B>0){const rem=B-exp,per=rem>0?rem/left:0;
+    hero=`<div><div class="sub">Aaj ki limit (bacha hua budget ÷ ${left} din)</div><div class="big">${m(Math.max(per-todayExp,0))}</div><div class="sub">Aaj ${m(todayExp)} kharch hua${rem<0?' · budget '+m(-rem)+' se zyada ho chuka':''}</div></div>`}
+  else hero=`<div><div class="sub">Dastiyab balance</div><div class="big">${m(bal)}</div><div class="sub">Budget set karein to roz ki kharch limit yahan dikhegi.</div></div>`;
+  const pct=B?Math.min(exp/B*100,100):0,cls=pct>=100?'o':pct>=80?'w':'';
+  const cats=byCat(mt),tot=cats.reduce((p,c)=>p+c[1],0);let acc=0;
+  const seg=cats.map(([c,v],i)=>{const p=v/tot*100,r=`<circle r="15.9155" cx="18" cy="18" fill="none" stroke="${COL[CE.indexOf(c)]||COL[6]}" stroke-width="5" stroke-dasharray="${p} ${100-p}" stroke-dashoffset="${-acc}"/>`;acc+=p;return r}).join('');
+  const days=[...Array(7)].map((_,i)=>{const d=new Date();d.setDate(d.getDate()-6+i);const k=iso(d);return{l:d.toLocaleDateString('en',{weekday:'short'}),v:sum(D.tx.filter(t=>t.d===k),'e')}}),mx=Math.max(...days.map(d=>d.v),1);
+  const top=cats[0]?`Sab se zyada kharcha <b>${cats[0][0]}</b> par hua (${Math.round(cats[0][1]/tot*100)}%).`:'';
+  return `<div class="top"><div><h1>Assalam o Alaikum, ${esc(U.name)}</h1><div class="sub">${now.toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long'})}</div></div></div>
+  <div class="card hero">${hero}<div style="min-width:180px;flex:1;max-width:280px"><div class="sub">Is mahine ka budget</div><div class="bar ${cls}" style="background:rgba(255,255,255,.18)"><i style="width:${pct}%"></i></div><div class="sub" style="margin-top:6px">${B?m(exp)+' / '+m(B):'Set nahi hai'}</div></div></div>
+  <div class="grid g3"><div class="card kpi"><div class="sub">Balance</div><div class="v ${bal<0?'neg':''}">${m(bal)}</div></div><div class="card kpi"><div class="sub">Aamdani (is mahine)</div><div class="v pos">${m(inc)}</div></div><div class="card kpi"><div class="sub">Kharcha (is mahine)</div><div class="v neg">${m(exp)}</div></div></div>
+  <div class="grid g2"><div class="card"><h2>Kharcha category-wise</h2>${cats.length?`<div class="donut"><svg viewBox="0 0 36 36" style="transform:rotate(-90deg)">${seg}</svg><div class="leg">${cats.map(([c,v])=>`<div><span class="dot" style="background:${COL[CE.indexOf(c)]||COL[6]}"></span>${c}<b>${m(v)}</b></div>`).join('')}</div></div><p class="sub" style="margin-top:10px">${top}</p>`:'<div class="empty">Is mahine abhi koi kharcha nahi.</div>'}</div>
+  <div class="card"><h2>Pichhle 7 din</h2><div class="week">${days.map(d=>`<div><i style="height:${d.v/mx*80}%" title="${m(d.v)}"></i>${d.l}</div>`).join('')}</div></div></div>
+  <div class="card"><h2>Haliya hisab</h2>${D.tx.length?[...D.tx].sort((a,b)=>b.d.localeCompare(a.d)||b.id-a.id).slice(0,5).map(rowH).join(''):'<div class="empty">Neeche + dabayein aur pehla hisab likhein.</div>'}</div>`}
+
+function txv(){
+  let l=[...D.tx].sort((a,b)=>b.d.localeCompare(a.d)||b.id-a.id).filter(t=>(flt.t==='all'||t.t===flt.t)&&(t.c+' '+(t.n||'')).toLowerCase().includes(flt.q.toLowerCase()));
+  return `<div class="top"><h1>Hisab</h1><button class="btn ghost" id="csv">CSV export</button></div>
+  <div class="filters"><input id="q" placeholder="Dhoondein…" value="${esc(flt.q)}" aria-label="Search"><select id="ft" aria-label="Filter"><option value="all">Sab</option><option value="e"${flt.t==='e'?' selected':''}>Kharcha</option><option value="i"${flt.t==='i'?' selected':''}>Aamdani</option></select></div>
+  <div class="card">${l.length?l.map(rowH).join(''):'<div class="empty">Koi hisab nahi mila.</div>'}</div>`}
+
+function budv(){
+  const exp=sum(monthTx(),'e'),B=D.bud.total,cs=Object.fromEntries(byCat(monthTx()));
+  const bar=(u,l)=>{const p=l?Math.min(u/l*100,100):0;return`<div class="bar ${p>=100?'o':p>=80?'w':''}"><i style="width:${p}%"></i></div>`};
+  return `<div class="top"><div><h1>Budget</h1><div class="sub">Is mahine ke liye limit set karein.</div></div></div>
+  <div class="card" style="margin-bottom:16px"><div class="set" style="border:0;padding:0"><div><b>Mahana budget</b><div class="sub">${B?m(exp)+' kharch · '+m(Math.max(B-exp,0))+' baqi':'Abhi set nahi'}</div></div><input type="number" min="0" id="bt" value="${B||''}" placeholder="0"></div>${B?bar(exp,B):''}${B&&exp>B?`<p class="err">Budget ${m(exp-B)} se zyada ho gaya hai.</p>`:B&&exp>B*.8?'<p class="sub" style="margin-top:8px;color:var(--warn)">Budget ka 80% se zyada kharch ho chuka hai.</p>':''}</div>
+  <div class="card"><h2>Category limits</h2>${CE.map(c=>{const l=D.bud.cat[c]||0,u=cs[c]||0;return`<div style="padding:10px 0;border-bottom:1px solid var(--line)"><div class="set" style="padding:0;border:0"><div>${c}<div class="sub">${m(u)}${l?' / '+m(l):''}</div></div><input type="number" min="0" data-bc="${c}" value="${l||''}" placeholder="Limit"></div>${l?bar(u,l):''}</div>`}).join('')}</div>`}
+
+function setv(){return `<div class="top"><h1>Settings</h1></div><div class="card">
+  <div class="set"><div><b>Naam</b><div class="sub">${esc(U.email)}</div></div><input id="sn" value="${esc(U.name)}"></div>
+  <div class="set"><b>Currency</b><select id="sc">${['Rs','PKR','$','£','€','AED'].map(c=>`<option${D.set.cur===c?' selected':''}>${c}</option>`).join('')}</select></div>
+  <div class="set"><b>Dark mode</b><input type="checkbox" id="sd" ${D.set.dark?'checked':''} style="width:22px;height:22px"></div>
+  <div class="set"><div><b>Data export</b><div class="sub">Poora hisab CSV file mein</div></div><button class="btn ghost" id="csv">Download</button></div>
+  <div class="set"><div><b>Sara data mitayein</b><div class="sub">Yeh wapis nahi ho sakta</div></div><button class="btn red" id="rs">Mitayein</button></div>
+  <div class="set"><b>Logout</b><button class="btn ghost" id="lo2">Logout</button></div></div>
+  <p class="sub" style="margin-top:14px">Aap ka data sirf is browser mein mehfooz hai. Doosre phone par dekhne ke liye CSV export karein.</p>`}
+
+/* ---------- Events ---------- */
+function bind(){
+  $$('[data-del]').forEach(b=>b.onclick=()=>{if(confirm('Yeh hisab delete karein?')){D.tx=D.tx.filter(t=>t.id!=b.dataset.del);save();render();toast('Delete ho gaya')}});
+  const q=$('#q');if(q){q.oninput=()=>{flt.q=q.value;const p=q.selectionStart;render();const n=$('#q');n.focus();n.setSelectionRange(p,p)};$('#ft').onchange=e=>{flt.t=e.target.value;render()}}
+  $$('#csv').forEach(b=>b.onclick=csv);
+  const bt=$('#bt');if(bt)bt.onchange=()=>{D.bud.total=+bt.value||0;save();render();toast('Budget save ho gaya')};
+  $$('[data-bc]').forEach(i=>i.onchange=()=>{D.bud.cat[i.dataset.bc]=+i.value||0;save();render()});
+  if($('#sn')){$('#sn').onchange=e=>{const v=e.target.value.trim();if(!v)return;const us=g('dh_users');us[U.email].name=v;s('dh_users',us);U.name=v;toast('Naam update hua')};
+    $('#sc').onchange=e=>{D.set.cur=e.target.value;save();toast('Currency badal gayi')};
+    $('#sd').onchange=e=>{D.set.dark=e.target.checked;document.documentElement.dataset.theme=D.set.dark?'dark':'';save()};
+    $('#rs').onclick=()=>{if(confirm('Sara hisab aur budget mit jayega. Pakka?')){D={tx:[],bud:{total:0,cat:{}},set:D.set};save();toast('Data mit gaya')}};
+    $('#lo2').onclick=logout}}
+function csv(){const r=[['Date','Type','Category','Amount','Note'],...D.tx.map(t=>[t.d,t.t==='i'?'Income':'Expense',t.c,t.a,'"'+(t.n||'').replace(/"/g,'""')+'"'])];
+  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([r.map(x=>x.join(',')).join('\n')],{type:'text/csv'}));a.download='daily-hisab.csv';a.click()}
+
+/* ---------- Add form ---------- */
+const fillCt=()=>{const t=document.querySelector('[name=t]:checked').value;$('#ct').innerHTML=(t==='e'?CE:CI).map(c=>`<option>${c}</option>`).join('')};
+$$('[name=t]').forEach(r=>r.onchange=fillCt);
+$('#fab').onclick=()=>{$('#f').reset();fillCt();$('#dt').value=today();$('#dlg').showModal();$('#am').focus()};
+$('#cx').onclick=()=>$('#dlg').close();
+$('#f').onsubmit=()=>{const a=+$('#am').value;if(!(a>0))return;
+  const t={id:Date.now(),t:document.querySelector('[name=t]:checked').value,a,c:$('#ct').value,d:$('#dt').value,n:$('#nt').value.trim()};
+  D.tx.push(t);save();render();toast('Hisab save ho gaya');
+  const B=D.bud.total,e=sum(monthTx(),'e');if(t.t==='e'&&B&&e>B)setTimeout(()=>toast('Budget se zyada kharch ho gaya!'),2400)};
+
+const ss=g('dh_sess');if(ss&&(g('dh_users')||{})[ss])boot(ss);
+</script></body></html>
