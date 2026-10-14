@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0f766e">
+<title>Daily Hisab</title>
+<style>
+:root{--bg:#f4f7f8;--card:#fff;--text:#15232b;--muted:#687780;--line:#e3eaed;--primary:#0f766e;--primary2:#115e59;--danger:#dc5252;--soft:#e7f6f3;--shadow:0 8px 24px #16333b0c}
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--text);transition:.2s}
+body.dark{--bg:#10191d;--card:#19262b;--text:#edf5f6;--muted:#a4b5ba;--line:#2c3b40;--soft:#203b38;--shadow:0 8px 24px #0003}
+button,input,select{font:inherit}button{cursor:pointer}.app{max-width:1100px;margin:auto;padding:18px}.top{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:20px}.brand{display:flex;align-items:center;gap:10px}.logo{width:45px;height:45px;display:grid;place-items:center;background:var(--primary);color:white;border-radius:14px;font-size:23px;font-weight:800}.brand h1{font-size:22px;margin:0}.brand p{margin:2px 0 0;color:var(--muted);font-size:13px}.actions{display:flex;gap:8px;flex-wrap:wrap}.btn{border:1px solid var(--line);background:var(--card);color:var(--text);padding:10px 13px;border-radius:11px}.btn.primary{background:var(--primary);border-color:var(--primary);color:white}.btn:hover{filter:brightness(.97)}.hero{background:linear-gradient(120deg,#0f766e,#164e63);color:white;border-radius:22px;padding:23px;margin-bottom:17px;box-shadow:var(--shadow)}.hero small{opacity:.8}.hero .amount{font-size:clamp(30px,6vw,43px);font-weight:800;margin:6px 0}.hero-bottom{display:flex;gap:22px;flex-wrap:wrap;margin-top:18px}.hero-bottom span{display:block;font-size:13px;opacity:.8}.hero-bottom strong{font-size:17px}.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px;margin-bottom:17px}.card{background:var(--card);border:1px solid var(--line);border-radius:17px;padding:17px;box-shadow:var(--shadow);min-width:0}.metric-label{font-size:13px;color:var(--muted)}.metric-value{font-size:clamp(18px,3vw,25px);font-weight:750;margin-top:8px;overflow-wrap:anywhere}.metric-icon{font-size:21px;margin-bottom:7px}.section-title{font-size:17px;margin:0 0 13px}.layout{display:grid;grid-template-columns:1.05fr .95fr;gap:15px;margin-bottom:16px}.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.field{display:flex;flex-direction:column;gap:5px}.field.full{grid-column:1/-1}.field label{font-size:12px;color:var(--muted)}.field input,.field select,.chat-input{width:100%;padding:11px 12px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--text);outline:none}.field input:focus,.field select:focus{border-color:var(--primary)}.type-switch{display:flex;gap:8px;margin-bottom:12px}.type-switch button{flex:1}.type-switch .active{background:var(--soft);border-color:var(--primary);color:var(--primary);font-weight:700}.form-actions{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}.budget-line{height:10px;background:var(--line);border-radius:9px;overflow:hidden;margin:12px 0}.budget-fill{height:100%;width:0;background:var(--primary);border-radius:9px;transition:width .25s}.muted{color:var(--muted);font-size:13px}.progress-row{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}.report-bars{display:flex;align-items:end;gap:10px;height:130px;padding-top:10px}.bar-col{flex:1;text-align:center;font-size:11px;color:var(--muted);min-width:0}.bar{width:min(34px,80%);margin:0 auto 7px;background:var(--primary);border-radius:7px 7px 2px 2px;min-height:3px}.transaction-list{display:flex;flex-direction:column;gap:8px}.transaction{display:flex;align-items:center;gap:10px;padding:11px 0;border-bottom:1px solid var(--line)}.transaction:last-child{border-bottom:0}.tx-icon{width:39px;height:39px;display:grid;place-items:center;background:var(--soft);border-radius:12px;font-size:19px;flex-shrink:0}.tx-main{flex:1;min-width:0}.tx-main strong{display:block;overflow-wrap:anywhere}.tx-main small{color:var(--muted)}.tx-amount{font-weight:750;white-space:nowrap}.income{color:#16835d}.expense{color:var(--danger)}.delete{border:0;background:transparent;color:var(--muted);padding:5px}.empty{padding:22px 0;text-align:center;color:var(--muted)}.chat-log{height:180px;overflow:auto;display:flex;flex-direction:column;gap:9px;margin-bottom:10px}.bubble{padding:10px 12px;border-radius:13px;max-width:90%;font-size:14px;background:var(--bg);border:1px solid var(--line);align-self:flex-start;white-space:pre-wrap}.bubble.user{background:var(--soft);border-color:transparent;align-self:flex-end}.chat-row{display:flex;gap:7px}.chat-row button{flex-shrink:0}.bottom-note{text-align:center;color:var(--muted);font-size:12px;padding:15px}.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#142a2d;color:#fff;padding:11px 16px;border-radius:12px;display:none;z-index:5;max-width:90%;text-align:center}
+@media(max-width:720px){.app{padding:13px}.grid{grid-template-columns:1fr 1fr}.grid .card:last-child{grid-column:1/-1}.layout{grid-template-columns:1fr}.hero{padding:19px}.brand h1{font-size:20px}}@media(max-width:390px){.grid{gap:8px}.card{padding:13px}.form-grid{grid-template-columns:1fr}.field.full{grid-column:auto}.actions .btn{padding:9px 10px}}
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="top">
+    <div class="brand"><div class="logo">DH</div><div><h1 data-en="Daily Hisab" data-ur="ڈیلی حساب">Daily Hisab</h1><p data-en="Your money, made simple" data-ur="Aap ke paison ka asaan hisaab">Your money, made simple</p></div></div>
+    <div class="actions">
+      <button class="btn" id="langBtn">اردو / EN</button>
+      <button class="btn" id="themeBtn" aria-label="Toggle dark mode">🌙</button>
+      <button class="btn" id="exportBtn">Export CSV</button>
+    </div>
+  </header>
+
+  <section class="hero">
+    <small data-en="Current balance" data-ur="Mojooda balance">Current balance</small>
+    <div class="amount" id="balance">AED 0.00</div>
+    <div class="hero-bottom">
+      <div><span data-en="Total income" data-ur="Kul aamdani">Total income</span><strong id="heroIncome">AED 0.00</strong></div>
+      <div><span data-en="Total expenses" data-ur="Kul kharcha">Total expenses</span><strong id="heroExpense">AED 0.00</strong></div>
+      <div><span data-en="This month" data-ur="Is mahine">This month</span><strong id="heroMonth">AED 0.00</strong></div>
+    </div>
+  </section>
+
+  <section class="grid">
+    <div class="card"><div class="metric-icon">💰</div><div class="metric-label" data-en="Income this month" data-ur="Is mahine ki aamdani">Income this month</div><div class="metric-value income" id="monthIncome">AED 0.00</div></div>
+    <div class="card"><div class="metric-icon">🧾</div><div class="metric-label" data-en="Expenses this month" data-ur="Is mahine ka kharcha">Expenses this month</div><div class="metric-value expense" id="monthExpense">AED 0.00</div></div>
+    <div class="card"><div class="metric-icon">🐷</div><div class="metric-label" data-en="Potential savings this month" data-ur="Is mahine ki mumkin bachat">Potential savings this month</div><div class="metric-value" id="monthSavings">AED 0.00</div></div>
+  </section>
+
+  <section class="layout">
+    <div class="card">
+      <h2 class="section-title" data-en="➕ Add a transaction" data-ur="➕ Naya hisaab add karein">➕ Add a transaction</h2>
+      <div class="type-switch"><button class="btn active" id="expenseType" type="button">− Expense / Kharcha</button><button class="btn" id="incomeType" type="button">+ Income / Aamdani</button></div>
+      <form id="txForm">
+        <div class="form-grid">
+          <div class="field full"><label for="amount" data-en="Amount (AED)" data-ur="Raqam (AED)">Amount (AED)</label><input id="amount" type="number" min="0.01" step="0.01" placeholder="e.g. 25.50" required></div>
+          <div class="field"><label for="category" data-en="Category" data-ur="Category">Category</label><select id="category"><option>Food</option><option>Transport</option><option>Shopping</option><option>Bills</option><option>Health</option><option>Education</option><option>Salary</option><option>Business</option><option>Other</option></select></div>
+          <div class="field"><label for="date" data-en="Date" data-ur="Tareekh">Date</label><input id="date" type="date" required></div>
+          <div class="field full"><label for="note" data-en="Note (optional)" data-ur="Note (optional)">Note (optional)</label><input id="note" maxlength="100" placeholder="e.g. Lunch"></div>
+        </div>
+        <div class="form-actions"><button class="btn primary" type="submit" id="saveBtn">Save transaction</button><button class="btn" type="reset" id="clearBtn">Clear</button></div>
+      </form>
+    </div>
+    <div class="card">
+      <h2 class="section-title" data-en="🎯 Monthly budget" data-ur="🎯 Mahana budget">🎯 Monthly budget</h2>
+      <p class="muted" data-en="Set an expense limit to help control spending." data-ur="Kharchay ko control karne ke liye limit set karein.">Set an expense limit to help control spending.</p>
+      <div class="field"><label for="budget" data-en="Budget amount (AED)" data-ur="Budget raqam (AED)">Budget amount (AED)</label><input id="budget" type="number" min="0" step="1" placeholder="e.g. 1500"></div>
+      <div class="form-actions"><button class="btn primary" id="budgetBtn" type="button" data-en="Save budget" data-ur="Budget save karein">Save budget</button></div>
+      <div class="budget-line"><div class="budget-fill" id="budgetFill"></div></div>
+      <div class="progress-row"><strong id="budgetSpent">AED 0.00 spent</strong><span class="muted" id="budgetPercent">Set your budget</span></div>
+      <p class="muted" id="budgetHint"></p>
+    </div>
+  </section>
+
+  <section class="layout">
+    <div class="card">
+      <h2 class="section-title" data-en="📊 Monthly report" data-ur="📊 Mahana report">📊 Monthly report</h2>
+      <div class="field"><label for="reportMonth" data-en="Choose month" data-ur="Mahina select karein">Choose month</label><input id="reportMonth" type="month"></div>
+      <div class="report-bars" id="reportBars"></div>
+      <div class="progress-row"><span class="muted" data-en="Income" data-ur="Aamdani">Income</span><strong class="income" id="reportIncome">AED 0.00</strong></div>
+      <div class="progress-row" style="margin-top:8px"><span class="muted" data-en="Expenses" data-ur="Kharcha">Expenses</span><strong class="expense" id="reportExpense">AED 0.00</strong></div>
+      <div class="progress-row" style="margin-top:8px"><span class="muted" data-en="Net savings" data-ur="Baqi bachat">Net savings</span><strong id="reportNet">AED 0.00</strong></div>
+    </div>
+    <div class="card">
+      <h2 class="section-title" data-en="🤖 Hisab helper" data-ur="🤖 Hisab helper">🤖 Hisab helper</h2>
+      <p class="muted" data-en="Ask about the transactions saved on this device." data-ur="Is device par save hisaab ke bare mein sawal karein.">Ask about the transactions saved on this device.</p>
+      <div class="chat-log" id="chatLog"><div class="bubble" data-en="Hi! Ask: “How much did I spend this month?”" data-ur="Salam! Poochhein: “Is mahine mera kharcha kitna hai?”">Hi! Ask: “How much did I spend this month?”</div></div>
+      <form class="chat-row" id="chatForm"><input class="chat-input" id="chatInput" placeholder="Ask about your hisab..." aria-label="Ask about your hisab" required><button class="btn primary" type="submit">Send</button></form>
+      <p class="muted" data-en="This is a basic offline helper, not a connected AI service." data-ur="Yeh basic offline helper hai, connected AI service nahi.">This is a basic offline helper, not a connected AI service.</p>
+    </div>
+  </section>
+
+  <section class="card">
+    <div class="progress-row" style="align-items:center;margin-bottom:8px"><h2 class="section-title" style="margin:0" data-en="🕘 Recent transactions" data-ur="🕘 Haal ke hisaab">🕘 Recent transactions</h2><button class="btn" id="clearAllBtn" type="button" data-en="Clear all" data-ur="Sab delete karein">Clear all</button></div>
+    <div class="field" style="max-width:260px;margin:12px 0"><label for="filter" data-en="Filter transactions" data-ur="Hisaab filter karein">Filter transactions</label><select id="filter"><option value="all">All</option><option value="expense">Expenses</option><option value="income">Income</option></select></div>
+    <div id="transactions" class="transaction-list"><div class="empty">No transactions yet. Add your first one above.</div></div>
+  </section>
+  <footer class="bottom-note">Daily Hisab · Your money, made simple · Data is saved in this browser on this device.</footer>
+</div>
+<div class="toast" id="toast" role="status"></div>
+<script>
+(() => {
+  const $ = id => document.getElementById(id);
+  const STORAGE_KEY = 'dailyHisabTransactionsV1';
+  const SETTINGS_KEY = 'dailyHisabSettingsV1';
+  let transactions = [];
+  let type = 'expense';
+  let lang = 'en';
+  let settings = {budget:0,dark:false};
+  try { transactions = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); if(!Array.isArray(transactions)) transactions=[]; } catch(e) { transactions=[]; }
+  try { settings = {...settings,...JSON.parse(localStorage.getItem(SETTINGS_KEY) || '{}')}; } catch(e) {}
+  const today = new Date();
+  const dateStr = d => `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+  const monthStr = d => `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`;
+  $('date').value = dateStr(today);
+  $('reportMonth').value = monthStr(today);
+  const money = n => 'AED ' + Number(n || 0).toLocaleString('en-AE',{minimumFractionDigits:2,maximumFractionDigits:2});
+  const currentMonth = () => monthStr(today);
+  const monthTx = m => transactions.filter(t => t.date && t.date.startsWith(m));
+  const total = (arr,t) => arr.filter(x=>x.type===t).reduce((s,x)=>s+Number(x.amount),0);
+  function persist(){localStorage.setItem(STORAGE_KEY,JSON.stringify(transactions));localStorage.setItem(SETTINGS_KEY,JSON.stringify(settings));}
+  let toastTimer;
+  function toast(message){$('toast').textContent=message;$('toast').style.display='block';clearTimeout(toastTimer);toastTimer=setTimeout(()=>$('toast').style.display='none',2400);}
+  function render(){
+    const allIncome=total(transactions,'income'), allExpense=total(transactions,'expense');
+    const mt=monthTx(currentMonth()), mi=total(mt,'income'), me=total(mt,'expense');
+    $('balance').textContent=money(allIncome-allExpense);
+    $('heroIncome').textContent=money(allIncome);$('heroExpense').textContent=money(allExpense);$('heroMonth').textContent=money(mi-me);
+    $('monthIncome').textContent=money(mi);$('monthExpense').textContent=money(me);$('monthSavings').textContent=money(mi-me);
+    $('budget').value=settings.budget || '';
+    $('budgetSpent').textContent=money(me)+' spent';
+    const pct=settings.budget>0?Math.round(me/settings.budget*100):0;
+    $('budgetPercent').textContent=settings.budget>0?pct+'% used':'Set your budget';
+    $('budgetFill').style.width=Math.min(pct,100)+'%';
+    $('budgetFill').style.background=pct>=100?'var(--danger)':'var(--primary)';
+    $('budgetHint').textContent=settings.budget>0?(me>settings.budget?'⚠️ Budget exceeded by '+money(me-settings.budget):'Remaining: '+money(settings.budget-me)):'Tip: set a monthly limit to track spending.';
+    renderTransactions();renderReport();document.body.classList.toggle('dark',!!settings.dark);$('themeBtn').textContent=settings.dark?'☀️':'🌙';
+  }
+  function renderTransactions(){
+    const filter=$('filter').value;
+    const list=[...transactions].filter(t=>filter==='all'||t.type===filter).sort((a,b)=>(b.date||'').localeCompare(a.date||'')||b.id-a.id);
+    const root=$('transactions');root.innerHTML='';
+    if(!list.length){root.innerHTML='<div class="empty">No transactions yet. Add your first one above.</div>';return;}
+    list.slice(0,100).forEach(t=>{
+      const row=document.createElement('div');row.className='transaction';
+      const icon=t.type==='income'?'💵':({'Food':'🍽️','Transport':'🚕','Shopping':'🛍️','Bills':'🧾','Health':'💊','Education':'📚','Salary':'💼','Business':'🏪','Other':'📌'}[t.category]||'📌');
+      const main=document.createElement('div');main.className='tx-main';
+      const title=document.createElement('strong');title.textContent=t.note||t.category||'Other';
+      const sub=document.createElement('small');sub.textContent=(t.category||'Other')+' · '+t.date;
+      main.append(title,sub);
+      const amt=document.createElement('div');amt.className='tx-amount '+(t.type==='income'?'income':'expense');amt.textContent=(t.type==='income'?'+':'−')+money(t.amount);
+      const del=document.createElement('button');del.className='delete';del.textContent='✕';del.setAttribute('aria-label','Delete transaction');del.addEventListener('click',()=>{if(confirm('Delete this transaction?')){transactions=transactions.filter(x=>x.id!==t.id);persist();render();toast('Transaction deleted.');}});
+      const ico=document.createElement('div');ico.className='tx-icon';ico.textContent=icon;row.append(ico,main,amt,del);root.appendChild(row);
+    });
+  }
+  function renderReport(){
+    const m=$('reportMonth').value||currentMonth(), arr=monthTx(m), inc=total(arr,'income'),exp=total(arr,'expense');
+    $('reportIncome').textContent=money(inc);$('reportExpense').textContent=money(exp);$('reportNet').textContent=money(inc-exp);
+    const max=Math.max(inc,exp,1);$('reportBars').innerHTML='';
+    [['Income',inc],['Expenses',exp]].forEach(([label,value])=>{const col=document.createElement('div');col.className='bar-col';const bar=document.createElement('div');bar.className='bar';bar.style.height=Math.max(value/max*90,3)+'px';bar.title=money(value);const amount=document.createElement('div');amount.textContent=value>=1000?(value/1000).toFixed(1)+'k':Math.round(value);const name=document.createElement('div');name.textContent=label;col.append(bar,amount,name);$('reportBars').appendChild(col);});
+  }
+  function setType(next){type=next;$('expenseType').classList.toggle('active',type==='expense');$('incomeType').classList.toggle('active',type==='income');const opts=$('category').options;[...opts].forEach(o=>o.hidden=false);if(type==='income'){[...opts].forEach(o=>o.hidden=['Food','Transport','Shopping','Bills','Health','Education'].includes(o.value));$('category').value='Salary';}else{$('category').value='Food';}}
+  $('expenseType').addEventListener('click',()=>setType('expense'));$('incomeType').addEventListener('click',()=>setType('income'));
+  $('txForm').addEventListener('submit',e=>{e.preventDefault();const amount=Number($('amount').value);if(!Number.isFinite(amount)||amount<=0){toast('Please enter a valid amount.');return;}transactions.push({id:Date.now(),type,amount,category:$('category').value,date:$('date').value,note:$('note').value.trim()});persist();render();$('txForm').reset();$('date').value=dateStr(new Date());setType('expense');toast('Transaction saved!');});
+  $('budgetBtn').addEventListener('click',()=>{const n=Number($('budget').value);if(n<0||!Number.isFinite(n)){toast('Enter a valid budget.');return;}settings.budget=n;persist();render();toast('Budget saved.');});
+  $('themeBtn').addEventListener('click',()=>{settings.dark=!settings.dark;persist();render();});
+  $('filter').addEventListener('change',renderTransactions);$('reportMonth').addEventListener('change',renderReport);
+  $('clearAllBtn').addEventListener('click',()=>{if(transactions.length&&confirm('Delete ALL transactions saved in this browser? This cannot be undone.')){transactions=[];persist();render();toast('All transactions cleared.');}});
+  $('exportBtn').addEventListener('click',()=>{const rows=[['Date','Type','Amount AED','Category','Note'],...transactions.map(t=>[t.date,t.type,t.amount,t.category,t.note||''])];const csv=rows.map(r=>r.map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(',')).join('\r\n');const blob=new Blob(['\ufeff'+csv],{type:'text/csv;charset=utf-8;'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='daily-hisab.csv';a.click();URL.revokeObjectURL(url);toast('CSV export started.');});
+  function addBubble(text,who){const b=document.createElement('div');b.className='bubble '+(who||'');b.textContent=text;$('chatLog').appendChild(b);$('chatLog').scrollTop=$('chatLog').scrollHeight;}
+  $('chatForm').addEventListener('submit',e=>{e.preventDefault();const q=$('chatInput').value.trim();if(!q)return;addBubble(q,'user');$('chatInput').value='';const s=q.toLowerCase(),m=monthTx(currentMonth()),inc=total(m,'income'),exp=total(m,'expense');let answer;
+    if(/income|aamdani|earned|kamai/.test(s)) answer='Your income this month is '+money(inc)+'.';
+    else if(/balance|baqi|remaining money/.test(s)) answer='Your overall balance is '+money(total(transactions,'income')-total(transactions,'expense'))+'.';
+    else if(/budget/.test(s)) answer=settings.budget>0?'You spent '+money(exp)+' of your '+money(settings.budget)+' budget this month. Remaining: '+money(Math.max(settings.budget-exp,0))+'.':'You have not set a monthly budget yet.';
+    else if(/food|transport|shopping|bills|health|education|salary|business/.test(s)){const cat=['Food','Transport','Shopping','Bills','Health','Education','Salary','Business'].find(c=>s.includes(c.toLowerCase()));answer=cat+' total this month: '+money(m.filter(t=>t.category===cat).reduce((sum,t)=>sum+Number(t.amount),0))+'.';}
+    else if(/expense|spend|kharcha|spent/.test(s)) answer='Your expenses this month are '+money(exp)+'.';
+    else if(/saving|bachat/.test(s)) answer='Your income minus expenses this month is '+money(inc-exp)+'.';
+    else answer='I can show your monthly income, expenses, balance, budget, savings, or category totals. Try: “How much did I spend this month?”';
+    setTimeout(()=>addBubble(answer,''),120);
+  });
+  $('langBtn').addEventListener('click',()=>{lang=lang==='en'?'ur':'en';document.documentElement.lang=lang==='ur'?'ur':'en';document.querySelectorAll('[data-en]').forEach(el=>{el.textContent=el.dataset[lang];});$('langBtn').textContent=lang==='en'?'اردو / EN':'EN / اردو';});
+  render();setType('expense');
+})();
+</script>
+</body>
+</html>
