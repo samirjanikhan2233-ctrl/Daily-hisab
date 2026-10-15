@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ur-Latn">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Daily Hisab Logo</title>
+<style>
+:root{--bg:#eef3f0;--ink:#14201b;--mute:#5d6f67;--green:#0f4c3a}
+@media(prefers-color-scheme:dark){:root{--bg:#0d1612;--ink:#e8f1ec;--mute:#93a79d;--green:#3cc195}}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.45 ui-rounded,system-ui,sans-serif;text-align:center;padding:24px 16px}
+#big{width:min(260px,70vw);height:auto;filter:drop-shadow(0 10px 18px rgba(0,0,0,.25))}
+h1{margin:14px 0 2px;color:var(--green)}
+p{color:var(--mute);margin:0 0 18px}
+.sizes{display:flex;justify-content:center;align-items:flex-end;gap:16px;margin:18px 0}
+.sizes svg{display:block}
+button{font:inherit;font-weight:600;border:0;border-radius:12px;padding:12px 18px;background:var(--green);color:#fff;margin:4px;cursor:pointer}
+@media(prefers-color-scheme:dark){button{color:#06231a}}
+</style>
+</head>
+<body>
+<svg id="big" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="a" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1b7a5c"/><stop offset="1" stop-color="#0a3328"/></linearGradient>
+    <linearGradient id="b" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f3cf6e"/><stop offset="1" stop-color="#c8962e"/></linearGradient>
+  </defs>
+  <rect width="120" height="120" rx="28" fill="url(#a)"/>
+  <rect x="27" y="22" width="56" height="74" rx="8" fill="#f6f8f7"/>
+  <rect x="27" y="22" width="12" height="74" rx="6" fill="#0f4c3a" opacity=".18"/>
+  <g stroke="#9db8ac" stroke-width="3" stroke-linecap="round"><line x1="46" y1="40" x2="74" y2="40"/><line x1="46" y1="52" x2="74" y2="52"/><line x1="46" y1="64" x2="62" y2="64"/></g>
+  <circle cx="80" cy="82" r="22" fill="url(#b)" stroke="#fff" stroke-width="4"/>
+  <path d="M71 74h18M71 81h18M74 74c9 0 9 10 0 10l11 11" fill="none" stroke="#0a3328" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+<h1>Daily Hisab</h1>
+<p>Roz ka hisab, apne phone mein</p>
+<div class="sizes" id="sizes"></div>
+<button id="dSvg" type="button">SVG download</button>
+<button id="dPng" type="button">PNG (512) download</button>
+<script>
+(function(){
+var big=document.getElementById("big"),box=document.getElementById("sizes");
+[96,64,40,24].forEach(function(s){var c=big.cloneNode(true);c.removeAttribute("id");c.style.width=s+"px";c.style.height=s+"px";c.style.filter="none";
+  // unique gradient ids per copy so each renders
+  c.innerHTML=c.innerHTML.replace(/id="a"/,'id="a'+s+'"').replace(/id="b"/,'id="b'+s+'"').replace(/url\(#a\)/,'url(#a'+s+')').replace(/url\(#b\)/,'url(#b'+s+')');box.appendChild(c)});
+function svgText(){var c=big.cloneNode(true);c.removeAttribute("id");c.removeAttribute("style");c.setAttribute("width","512");c.setAttribute("height","512");return new XMLSerializer().serializeToString(c)}
+function save(blob,name){var a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();a.remove()}
+document.getElementById("dSvg").addEventListener("click",function(){save(new Blob([svgText()],{type:"image/svg+xml"}),"daily-hisab-logo.svg")});
+document.getElementById("dPng").addEventListener("click",function(){
+  var img=new Image();img.onload=function(){var cv=document.createElement("canvas");cv.width=cv.height=512;cv.getContext("2d").drawImage(img,0,0,512,512);cv.toBlob(function(b){save(b,"icon-512.png")})};
+  img.src="data:image/svg+xml;charset=utf-8,"+encodeURIComponent(svgText());
+});
+})();
+</script>
+</body>
+</html>
